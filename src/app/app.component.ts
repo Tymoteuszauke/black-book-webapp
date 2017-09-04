@@ -12,7 +12,7 @@ import { BookService } from './book.service';
       <li *ngFor="let bookDiscount of bookDiscounts"
         [class.selected]="bookDiscount === selectedBookDiscount"
         (click)="onSelect(bookDiscount)">
-        <span class="badge">{{bookDiscount.id}}</span> {{bookDiscount.bookView.title}}
+        <span class="badge">{{bookDiscount.id}}</span> {{bookDiscount.bookView.title}} <span class="badge-price"> {{bookDiscount.price}} pln</span>
       </li>
     </ul>
     <book-discount-detail [bookDiscount]="selectedBookDiscount"></book-discount-detail>
@@ -26,16 +26,16 @@ import { BookService } from './book.service';
       margin: 0 0 2em 0;
       list-style-type: none;
       padding: 0;
-      width: 15em;
+      width: 35em;
     }
     .bookDiscounts li {
       cursor: pointer;
       position: relative;
       left: 0;
       background-color: #EEE;
-      margin: .5em;
-      padding: .3em 0;
-      height: 1.6em;
+      margin: .6em;
+      padding: .4em 0;
+      height: 1.4em;
       border-radius: 4px;
     }
     .bookDiscounts li.selected:hover {
@@ -59,12 +59,27 @@ import { BookService } from './book.service';
       background-color: #607D8B;
       line-height: 1em;
       position: relative;
-      left: -1px;
-      top: -4px;
+      left: -12px;
+      top: -5px;
       height: 1.8em;
       margin-right: .8em;
       border-radius: 4px 0 0 4px;
     }
+
+    .bookDiscounts .badge-price {
+    display: inline-block;
+    font-size: small;
+    color: white;
+    padding: 0.8em 0.7em 0 0.7em;
+    background-color: #607D7B;
+    line-height: 1em;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    height: 1.9em;
+    min-width: 5em;
+    border-radius: 0 4px 4px 0;
+  }
   `],
   providers: [BookService]
 })

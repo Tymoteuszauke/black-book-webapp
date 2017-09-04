@@ -1,7 +1,7 @@
 
 # Created by Tymek
 
-#ignore unnecesary .js files
+#ignore unnecessary .js files
 /src/app/*.js
 /src/app/*.map
 /src/app/model/*.js
