@@ -2,12 +2,17 @@ import { Component, OnInit } from '@angular/core';
 
 import { BookDiscount } from './model/bookDiscount';
 import { BookService } from './book.service';
+import { TextComponent } from './text.component';
 
 @Component({
   selector: 'my-app',
   template: `
     <h1>{{title}}</h1>
     <h2>My Discount Library</h2>
+    <pre>
+      <input type="text"  #titleInput (keypress)= 'searchEvent(titleInput.value)'>
+      <button type="submit" (click) = 'searchEvent(titleInput.value)'>Search</button>
+    </pre>
     <ul class="bookDiscounts">
       <li *ngFor="let bookDiscount of bookDiscounts"
         [class.selected]="bookDiscount === selectedBookDiscount"
@@ -91,9 +96,10 @@ export class AppComponent implements OnInit {
   constructor(private bookService: BookService) { }
 
   getBookDiscounts(): void {
-    this.bookService.getBookDiscounts().then((bookDiscounts => {
+    this.bookService.getBookDiscounts("").then((bookDiscounts => {
       console.log(bookDiscounts);
-      this.bookDiscounts = bookDiscounts; }))
+      this.bookDiscounts = bookDiscounts;
+    }))
   }
 
   ngOnInit(): void {
@@ -102,5 +108,12 @@ export class AppComponent implements OnInit {
 
   onSelect(bookDiscount: BookDiscount): void {
     this.selectedBookDiscount = bookDiscount;
+  }
+
+  searchEvent(query: string): void {
+    this.bookService.getBookDiscounts(query).then((bookDiscounts => {
+      console.log(bookDiscounts);
+      this.bookDiscounts = bookDiscounts;
+    }))
   }
 }
