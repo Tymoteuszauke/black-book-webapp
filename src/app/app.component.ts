@@ -97,7 +97,7 @@ export class AppComponent implements OnInit {
   title = 'Book discounts library';
   bookDiscounts: BookDiscount[];
   selectedBookDiscount: BookDiscount;
-  page: number = 2;
+  page: number = 0;
 
   constructor(private bookService: BookService) { }
 

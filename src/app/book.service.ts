@@ -14,16 +14,8 @@ export class BookService {
     return Promise.resolve(this.getBookDiscountsQueried(query, page));
   }
 
-  // See the "Take it slow" appendix
-  // getBooksSlowly(): Promise<BookDiscount[]> {
-  //   return new Promise(resolve => {
-  //     // Simulate server latency with 2 second delay
-  //     setTimeout(() => resolve(this.getBookDiscounts()), 2000);
-  //   });
-  // }
-
   getBookDiscountsQueried(query: string, page: number): Promise<BookDiscount[]> {
-    return this.http.get('http://localhost:8101/api/book-discounts?query=' + query + '&page=' + page)
+    return this.http.get('http://52ed0202.ngrok.io/api/book-discounts?query=' + query + '&page=' + page)
       .toPromise()
       .then(response => {
         console.log(response)
