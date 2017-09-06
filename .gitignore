@@ -1,0 +1,11 @@
+
+# Created by Tymek
+
+#ignore unnecessary .js files
+/src/app/*.js
+/src/app/*.map
+/src/app/model/*.js
+/src/app/model/*.map
+/node_modules/*
+
+# End of .gitignore
