@@ -15,7 +15,7 @@ export class BookService {
   }
 
   getBookDiscountsQueried(query: string, page: number): Promise<BookDiscount[]> {
-    return this.http.get('http://52ed0202.ngrok.io/api/book-discounts?query=' + query + '&page=' + page)
+    return this.http.get('http://10.30.1.103:8101/api/book-discounts?query=' + query + '&page=' + page)
       .toPromise()
       .then(response => {
         console.log(response)
