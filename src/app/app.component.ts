@@ -13,6 +13,9 @@ import { TextComponent } from './text.component';
       <input type="text"  #titleInput (keypress)= 'searchEvent(titleInput.value)'>
       <button type="submit" (click) = 'searchEvent(titleInput.value)'>Search</button>
     </pre>
+    <button type="submit" (click) = 'previousPage(titleInput.value)'> < </button>
+    <button type="submit" (click) = 'nextPage(titleInput.value)'> > </button>
+    <div>
     <ul class="bookDiscounts">
       <li *ngFor="let bookDiscount of bookDiscounts"
         [class.selected]="bookDiscount === selectedBookDiscount"
@@ -21,6 +24,7 @@ import { TextComponent } from './text.component';
       </li>
     </ul>
     <book-discount-detail [bookDiscount]="selectedBookDiscount"></book-discount-detail>
+    </div>
   `,
   styles: [`
     .selected {
@@ -32,6 +36,7 @@ import { TextComponent } from './text.component';
       list-style-type: none;
       padding: 0;
       width: 35em;
+      float: left;
     }
     .bookDiscounts li {
       cursor: pointer;
@@ -92,11 +97,12 @@ export class AppComponent implements OnInit {
   title = 'Book discounts library';
   bookDiscounts: BookDiscount[];
   selectedBookDiscount: BookDiscount;
+  page: number = 2;
 
   constructor(private bookService: BookService) { }
 
   getBookDiscounts(): void {
-    this.bookService.getBookDiscounts("").then((bookDiscounts => {
+    this.bookService.getBookDiscounts("", this.page).then((bookDiscounts => {
       console.log(bookDiscounts);
       this.bookDiscounts = bookDiscounts;
     }))
@@ -111,9 +117,27 @@ export class AppComponent implements OnInit {
   }
 
   searchEvent(query: string): void {
-    this.bookService.getBookDiscounts(query).then((bookDiscounts => {
+    this.bookService.getBookDiscounts(query, 0).then((bookDiscounts => {
       console.log(bookDiscounts);
       this.bookDiscounts = bookDiscounts;
     }))
+  }
+
+  nextPage(query: string): void {
+    this.page += 1;
+    this.bookService.getBookDiscounts(query, this.page).then((bookDiscounts => {
+      console.log(bookDiscounts);
+      this.bookDiscounts = bookDiscounts;
+    }))
+  }
+
+  previousPage(query: string): void {
+    if (this.page >= 0) {
+      this.page -= 1;
+      this.bookService.getBookDiscounts(query, this.page).then((bookDiscounts => {
+        console.log(bookDiscounts);
+        this.bookDiscounts = bookDiscounts;
+      }))
+    }
   }
 }

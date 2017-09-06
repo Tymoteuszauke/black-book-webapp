@@ -10,8 +10,8 @@ import 'rxjs/add/operator/map';
 export class BookService {
   constructor(private http: Http) { }
 
-  getBookDiscounts(query: string): Promise<BookDiscount[]> {
-    return Promise.resolve(this.getBookDiscountsQueried(query));
+  getBookDiscounts(query: string, page: number): Promise<BookDiscount[]> {
+    return Promise.resolve(this.getBookDiscountsQueried(query, page));
   }
 
   // See the "Take it slow" appendix
@@ -22,8 +22,8 @@ export class BookService {
   //   });
   // }
 
-  getBookDiscountsQueried(query: string): Promise<BookDiscount[]> {
-    return this.http.get('http://localhost:8080/api/book-discounts?query=' + query)
+  getBookDiscountsQueried(query: string, page: number): Promise<BookDiscount[]> {
+    return this.http.get('http://localhost:8101/api/book-discounts?query=' + query + '&page=' + page)
       .toPromise()
       .then(response => {
         console.log(response)

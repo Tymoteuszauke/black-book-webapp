@@ -34,20 +34,17 @@ import { BookDiscount } from './model/bookDiscount';
   `,
   styles: [`
     .bookDiscountDetailsContainer {
-      margin: 0;
-      border-size:20px;
+      margin: 0 0 2em 0;
+      border-size: 2px;
       border-style:solid;
       border-color: #607D8B;
       border-radius: 4px;
       background: #EEE;
-      position: absolute;
+      position: relative;
       width: 600px;
       height: 500px;
       padding: 5px;
-      top: 55%;
-      left: 50%;
-      margin-right: -50%;
-      transform: translate(-50%, -50%);
+      float: right;
     }
 
     .bookDiscountDetailsCoverContainer {
