@@ -9,12 +9,12 @@ import { BookDetailComponent } from './book-detail.component';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
   ],
   declarations: [
     AppComponent,
-    BookDetailComponent
-  ],
+    BookDetailComponent,
+    ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

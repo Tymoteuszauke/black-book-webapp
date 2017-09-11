@@ -15,16 +15,16 @@ import { BookDiscount } from './model/bookDiscount';
           <input [(ngModel)]="bookDiscount.bookView.authors" placeholder="authors"/>
         </div>
         <div class=bookDiscountInfoLineContainer>
-          <label>name: </label>
-          <input [(ngModel)]="bookDiscount.bookView.title" placeholder="title"/>
-        </div>
-        <div class=bookDiscountInfoLineContainer>
           <label>price: </label>
           <input [(ngModel)]="bookDiscount.price" placeholder="price"/>
         </div>
         <div class=bookDiscountInfoLineContainer>
           <label>discount: </label>
           <input [(ngModel)]="bookDiscount.discountDetails" placeholder="discount"/>
+        </div>
+        <div class=bookDiscountInfoLineContainer>
+          <label>bookstore: </label>
+          <input [(ngModel)]="bookDiscount.bookstoreView.name" placeholder="bookstore"/>
         </div>
       </div>
       <div class=bookDiscountDetailsCoverContainer>
