@@ -10,10 +10,12 @@ import { TextComponent } from './text.component';
     <h1>{{title}}</h1>
     <h2>My Discount Library</h2>
     <pre>
-      <input type="text" #titleInput (keypress)= 'searchEvent(titleInput.value)'>
+      <input type="text" #titleInput (keypress)= 'searchEvent(titleInput.value, priceFromSlider.value, priceToSlider.value)'>
       <button type="submit" (click) = 'searchEvent(titleInput.value)'>Search</button>
     </pre>
-    <input type=range #priceFromSlider max='1000' value='0' (input)= 'updatePriceFrom(priceFromSlider.value)'/> {{this.priceFrom}}
+    <input type=range #priceFromSlider max='1000' value='0' (input)='updatePriceFrom(priceFromSlider.value)'/> {{this.priceFrom}}
+    <input type=range #priceToSlider min='{{priceFrom}}' max='2000' value='2000' (input)='updatePriceTo(priceToSlider.value)'/> {{this.priceTo}}
+    <button type='submit' (click) = 'searchEvent(titleInput.value, priceFromSlider.value, priceToSlider.value)'> check! </button>
     <button type="submit" (click) = 'previousPage(titleInput.value)'> < </button>
     <button type="submit" (click) = 'nextPage(titleInput.value)'> > </button>
     Page {{bookService.getCurrentPage()}} from {{bookService.getTotalPages()}}
@@ -102,11 +104,12 @@ export class AppComponent implements OnInit {
   selectedBookDiscount: BookDiscount;
   page: number = 0;
   priceFrom: string;
+  priceTo: string;
 
   constructor(private bookService: BookService) { }
 
   getBookDiscounts(): void {
-    this.bookService.getBookDiscounts("", this.page).then((bookDiscounts => {
+    this.bookService.getBookDiscounts("", this.page, '0', '2000').then((bookDiscounts => {
       console.log(bookDiscounts);
       this.bookDiscounts = bookDiscounts;
     }))
@@ -125,8 +128,12 @@ export class AppComponent implements OnInit {
     this.priceFrom = priceFrom;
   }
 
-  searchEvent(query: string): void {
-    this.bookService.getBookDiscounts(query, 0).then((bookDiscounts => {
+  updatePriceTo(priceTo: string): void {
+    this.priceTo = priceTo;
+  }
+
+  searchEvent(query: string, priceFrom: string, priceTo: string): void {
+    this.bookService.getBookDiscounts(query, 0, priceFrom, priceTo).then((bookDiscounts => {
       console.log(bookDiscounts);
       this.bookDiscounts = bookDiscounts;
     }))
@@ -134,7 +141,7 @@ export class AppComponent implements OnInit {
 
   nextPage(query: string): void {
     this.page += 1;
-    this.bookService.getBookDiscounts(query, this.page).then((bookDiscounts => {
+    this.bookService.getBookDiscounts(query, this.page, this.priceFrom, this.priceTo).then((bookDiscounts => {
       console.log(bookDiscounts);
       this.bookDiscounts = bookDiscounts;
     }))
@@ -143,7 +150,7 @@ export class AppComponent implements OnInit {
   previousPage(query: string): void {
     if (this.page >= 0) {
       this.page -= 1;
-      this.bookService.getBookDiscounts(query, this.page).then((bookDiscounts => {
+      this.bookService.getBookDiscounts(query, this.page, this.priceFrom, this.priceTo).then((bookDiscounts => {
         console.log(bookDiscounts);
         this.bookDiscounts = bookDiscounts;
       }))

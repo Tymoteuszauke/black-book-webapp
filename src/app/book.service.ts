@@ -13,14 +13,15 @@ export class BookService {
   totalPages: number;
   currentPage: number;
 
-  getBookDiscounts(query: string, page: number): Promise<BookDiscount[]> {
-    return Promise.resolve(this.getBookDiscountsQueried(query, page));
+  getBookDiscounts(query: string, page: number, priceFrom: string, priceTo: string): Promise<BookDiscount[]> {
+    return Promise.resolve(this.getBookDiscountsQueried(query, page, priceFrom, priceTo));
   }
 
-  getBookDiscountsQueried(query: string, page: number): Promise<BookDiscount[]> {
-    return this.http.get('http://10.30.1.127:8101/api/book-discounts?query=' + query + '&page=' + page)
+  getBookDiscountsQueried(query: string, page: number, priceFrom: string, priceTo: string): Promise<BookDiscount[]> {
+    return this.http.get('http://localhost:8101/api/book-discounts?query=' + query + '&page=' + page + '&priceFrom=' + priceFrom + '&priceTo=' + priceTo)
       .toPromise()
       .then(response => {
+        console.log('http://localhost:8101/api/book-discounts?query=' + query + '&page=' + page + '&priceFrom=' + priceFrom + '&priceTo=' + priceTo);
         console.log(response)
         this.totalPages = response.json().totalPages;
         this.currentPage = response.json().number;
