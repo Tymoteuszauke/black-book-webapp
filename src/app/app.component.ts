@@ -10,17 +10,19 @@ import { TextComponent } from './text.component';
     <h1>{{title}}</h1>
     <h2>My Discount Library</h2>
     <pre>
-      <input type="text"  #titleInput (keypress)= 'searchEvent(titleInput.value)'>
+      <input type="text" #titleInput (keypress)= 'searchEvent(titleInput.value)'>
       <button type="submit" (click) = 'searchEvent(titleInput.value)'>Search</button>
     </pre>
+    <input type=range #priceFromSlider max='1000' value='0' (input)= 'updatePriceFrom(priceFromSlider.value)'/> {{this.priceFrom}}
     <button type="submit" (click) = 'previousPage(titleInput.value)'> < </button>
     <button type="submit" (click) = 'nextPage(titleInput.value)'> > </button>
+    Page {{bookService.getCurrentPage()}} from {{bookService.getTotalPages()}}
     <div>
     <ul class="bookDiscounts">
       <li *ngFor="let bookDiscount of bookDiscounts"
         [class.selected]="bookDiscount === selectedBookDiscount"
         (click)="onSelect(bookDiscount)">
-        <span class="badge">{{bookDiscount.id}}</span> {{bookDiscount.bookView.title}} <span class="badge-price"> {{bookDiscount.price}} pln</span>
+        <span class="badge">{{bookDiscount.id}}</span> {{bookDiscount.bookView.title}} <span class="badge-price"> {{bookDiscount.price}} PLN</span>
       </li>
     </ul>
     <book-discount-detail [bookDiscount]="selectedBookDiscount"></book-discount-detail>
@@ -45,8 +47,10 @@ import { TextComponent } from './text.component';
       background-color: #EEE;
       margin: .6em;
       padding: .4em 0;
-      height: 1.4em;
+      padding-right: 5em;
+      height: 4.4em;
       border-radius: 4px;
+      word-wrap: break-word;
     }
     .bookDiscounts li.selected:hover {
       background-color: #BBD8DC !important;
@@ -59,7 +63,7 @@ import { TextComponent } from './text.component';
     }
     .bookDiscounts .text {
       position: relative;
-      top: -3px;
+      left: -20px;
     }
     .bookDiscounts .badge {
       display: inline-block;
@@ -69,8 +73,7 @@ import { TextComponent } from './text.component';
       background-color: #607D8B;
       line-height: 1em;
       position: relative;
-      left: -12px;
-      top: -5px;
+      top: -7px;
       height: 1.8em;
       margin-right: .8em;
       border-radius: 4px 0 0 4px;
@@ -98,6 +101,7 @@ export class AppComponent implements OnInit {
   bookDiscounts: BookDiscount[];
   selectedBookDiscount: BookDiscount;
   page: number = 0;
+  priceFrom: string;
 
   constructor(private bookService: BookService) { }
 
@@ -114,6 +118,11 @@ export class AppComponent implements OnInit {
 
   onSelect(bookDiscount: BookDiscount): void {
     this.selectedBookDiscount = bookDiscount;
+  }
+
+  updatePriceFrom(priceFrom: string): void {
+    console.log(priceFrom)
+    this.priceFrom = priceFrom;
   }
 
   searchEvent(query: string): void {
