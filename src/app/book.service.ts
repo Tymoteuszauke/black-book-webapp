@@ -10,6 +10,9 @@ import 'rxjs/add/operator/map';
 export class BookService {
   constructor(private http: Http) { }
 
+  totalPages: number;
+  currentPage: number;
+
   getBookDiscounts(query: string, page: number): Promise<BookDiscount[]> {
     return Promise.resolve(this.getBookDiscountsQueried(query, page));
   }
@@ -19,9 +22,19 @@ export class BookService {
       .toPromise()
       .then(response => {
         console.log(response)
+        this.totalPages = response.json().totalPages;
+        this.currentPage = response.json().number;
         return response.json().content;
       })
       .catch(this.handleError);
+  }
+
+  getTotalPages(): number {
+    return this.totalPages;
+  }
+
+  getCurrentPage(): number {
+    return this.currentPage;
   }
 
   private handleError(error: any) {
