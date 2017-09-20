@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { BookDiscount } from './model/bookDiscount';
 import { BookService } from './book.service';
+import { GenreService } from './genreService/genre.service'
 import { TextComponent } from './text.component';
+import { Genre } from './model/genre'
 
 @Component({
   selector: 'my-app',
@@ -96,27 +98,30 @@ import { TextComponent } from './text.component';
     border-radius: 0 4px 4px 0;
   }
   `],
-  providers: [BookService]
+  providers: [BookService, GenreService]
 })
 export class AppComponent implements OnInit {
   title = 'Book discounts library';
   bookDiscounts: BookDiscount[];
+  genres: Genre[];
   selectedBookDiscount: BookDiscount;
   page: number = 0;
-  priceFrom: string;
-  priceTo: string;
+  priceFrom: string = '0';
+  priceTo: string = '2000';
 
-  constructor(private bookService: BookService) { }
+  constructor(private bookService: BookService, private genreService: GenreService) { }
 
   getBookDiscounts(): void {
     this.bookService.getBookDiscounts("", this.page, '0', '2000').then((bookDiscounts => {
       console.log(bookDiscounts);
+      console.log(this.genres)
       this.bookDiscounts = bookDiscounts;
     }))
   }
 
   ngOnInit(): void {
     this.getBookDiscounts();
+    this.genreService.getGenres().subscribe(genres => this.genres = genres);
   }
 
   onSelect(bookDiscount: BookDiscount): void {

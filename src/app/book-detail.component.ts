@@ -24,7 +24,7 @@ import { BookDiscount } from './model/bookDiscount';
         </div>
         <div class=bookDiscountInfoLineContainer>
           <label>bookstore: </label>
-          <input [(ngModel)]="bookDiscount.bookstoreView.name" placeholder="bookstore"/>
+          <input [(ngModel)]="bookDiscount.bookstoreView" placeholder="bookstore"/>
         </div>
       </div>
       <div class=bookDiscountDetailsCoverContainer>
