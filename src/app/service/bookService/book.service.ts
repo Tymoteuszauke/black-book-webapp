@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Http } from '@angular/http';
-import { BookDiscount } from './model/bookDiscount';
+import { BookDiscount } from '../../model/bookDiscount';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
