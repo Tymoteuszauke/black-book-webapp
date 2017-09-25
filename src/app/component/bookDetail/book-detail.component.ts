@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { BookDiscount } from './model/bookDiscount';
+import { BookDiscount } from '../../model/bookDiscount';
 
 @Component({
   selector: 'book-discount-detail',
@@ -44,7 +44,7 @@ import { BookDiscount } from './model/bookDiscount';
       width: 600px;
       height: 500px;
       padding: 5px;
-      float: right;
+      float: left;
     }
 
     .bookDiscountDetailsCoverContainer {

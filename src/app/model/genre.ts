@@ -1,3 +1,3 @@
 export class Genre {
-  constructor(name: string) {}
+  constructor(id: number, name: string) {}
 }
