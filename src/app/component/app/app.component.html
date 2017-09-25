@@ -1,0 +1,27 @@
+<h1>{{title}}</h1>
+<h2>My Discount Library</h2>
+<pre>
+  <input type="text" #titleInput (keypress)= 'searchEvent(titleInput.value, priceFromSlider.value, priceToSlider.value)'>
+  <button type="submit" (click) = 'searchEvent(titleInput.value)'>Search</button>
+</pre>
+<input type=range #priceFromSlider max='1000' value='0' (input)='updatePriceFrom(priceFromSlider.value)'/> {{this.priceFrom}}
+<input type=range #priceToSlider min='{{priceFrom}}' max='2000' value='2000' (input)='updatePriceTo(priceToSlider.value)'/> {{this.priceTo}}
+<button type='submit' (click) = 'searchEvent(titleInput.value, priceFromSlider.value, priceToSlider.value)'> check! </button>
+<button type="submit" (click) = 'previousPage(titleInput.value)'> < </button>
+<button type="submit" (click) = 'nextPage(titleInput.value)'> > </button>
+Page {{bookService.getCurrentPage()}} from {{bookService.getTotalPages()}}
+<div>
+  <select [(ngModel)]="selectedValue">
+    <option *ngFor="let genre of genres" [ngValue]="genre.id">{{genre.name}}</option>
+  </select>
+</div>
+<div>
+<ul class="bookDiscounts">
+  <li *ngFor="let bookDiscount of bookDiscounts"
+    [class.selected]="bookDiscount === selectedBookDiscount"
+    (click)="onSelect(bookDiscount)">
+    <span class="badge">{{bookDiscount.id}}</span> {{bookDiscount.bookView.title}} <span class="badge-price"> {{bookDiscount.price}} PLN</span>
+  </li>
+</ul>
+<book-discount-detail [bookDiscount]="selectedBookDiscount"></book-discount-detail>
+</div>

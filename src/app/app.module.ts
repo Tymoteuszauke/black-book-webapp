@@ -2,19 +2,19 @@ import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
 import { HttpModule }    from '@angular/http';
-import { AppComponent }  from './app.component';
-import { BookDetailComponent } from './book-detail.component';
+import { AppComponent }  from './component/app/app.component';
+import { BookDetailComponent } from './component/bookDetail/book-detail.component';
 
 @NgModule({
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
   ],
   declarations: [
     AppComponent,
-    BookDetailComponent
-  ],
+    BookDetailComponent,
+    ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
