@@ -13,19 +13,14 @@ export class BookService {
   totalPages: number;
   currentPage: number;
 
-  getBookDiscounts(query: string, page: number, priceFrom: string, priceTo: string): Promise<BookDiscount[]> {
-    return Promise.resolve(this.getBookDiscountsQueried(query, page, priceFrom, priceTo));
-  }
-
-  getBookDiscountsQueried(query: string, page: number, priceFrom: string, priceTo: string): Promise<BookDiscount[]> {
-    return this.http.get('http://localhost:8101/api/book-discounts?query=' + query + '&page=' + page + '&priceFrom=' + priceFrom + '&priceTo=' + priceTo)
-      .toPromise()
-      .then(response => {
-        console.log('http://localhost:8101/api/book-discounts?query=' + query + '&page=' + page + '&priceFrom=' + priceFrom + '&priceTo=' + priceTo);
+  getBookDiscountsQueried(query: string, page: number, priceFrom: string, priceTo: string, genreId: number): Observable<BookDiscount[]> {
+    return this.http.get('http://localhost:8101/api/book-discounts?query=' + query + '&page=' + page + '&priceFrom=' + priceFrom + '&priceTo=' + priceTo + '&genre=' + 4)
+      .map(response => {
+        console.log('http://localhost:8101/api/book-discounts?query=' + query + '&page=' + page + '&priceFrom=' + priceFrom + '&priceTo=' + priceTo + '&genre=' + 4);
         console.log(response)
         this.totalPages = response.json().totalPages;
         this.currentPage = response.json().number;
-        return response.json().content;
+        return response.json().content as BookDiscount[];
       })
       .catch(this.handleError);
   }

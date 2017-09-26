@@ -16,6 +16,7 @@ export class AppComponent implements OnInit {
   title = 'Book discounts library';
   bookDiscounts: BookDiscount[];
   genres: Genre[];
+  currentGenreId: number;
   selectedBookDiscount: BookDiscount;
   page: number = 0;
   priceFrom: string = '0';
@@ -24,7 +25,8 @@ export class AppComponent implements OnInit {
   constructor(private bookService: BookService, private genreService: GenreService) { }
 
   getBookDiscounts(): void {
-    this.bookService.getBookDiscounts("", this.page, '0', '2000').then((bookDiscounts => {
+    this.bookService.getBookDiscountsQueried("", this.page, '0', '2000', this.currentGenreId)
+    .subscribe((bookDiscounts => {
       console.log(bookDiscounts);
       console.log(this.genres)
       this.bookDiscounts = bookDiscounts;
@@ -49,8 +51,9 @@ export class AppComponent implements OnInit {
     this.priceTo = priceTo;
   }
 
-  searchEvent(query: string, priceFrom: string, priceTo: string): void {
-    this.bookService.getBookDiscounts(query, 0, priceFrom, priceTo).then((bookDiscounts => {
+  searchEvent(query: string, priceFrom: string, priceTo: string, genreId: number = 0): void {
+    this.bookService.getBookDiscountsQueried(query, 0, priceFrom, priceTo, genreId)
+    .subscribe((bookDiscounts => {
       console.log(bookDiscounts);
       this.bookDiscounts = bookDiscounts;
     }))
@@ -58,7 +61,8 @@ export class AppComponent implements OnInit {
 
   nextPage(query: string): void {
     this.page += 1;
-    this.bookService.getBookDiscounts(query, this.page, this.priceFrom, this.priceTo).then((bookDiscounts => {
+    this.bookService.getBookDiscountsQueried(query, this.page, this.priceFrom, this.priceTo, this.currentGenreId)
+    .subscribe((bookDiscounts => {
       console.log(bookDiscounts);
       this.bookDiscounts = bookDiscounts;
     }))
@@ -67,7 +71,8 @@ export class AppComponent implements OnInit {
   previousPage(query: string): void {
     if (this.page >= 0) {
       this.page -= 1;
-      this.bookService.getBookDiscounts(query, this.page, this.priceFrom, this.priceTo).then((bookDiscounts => {
+      this.bookService.getBookDiscountsQueried(query, this.page, this.priceFrom, this.priceTo, this.currentGenreId)
+      .subscribe((bookDiscounts => {
         console.log(bookDiscounts);
         this.bookDiscounts = bookDiscounts;
       }))
