@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Http } from '@angular/http';
 import { BookDiscount } from '../../model/bookDiscount';
+import { HighestPrice } from '../../model/highestPrice'
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
@@ -13,14 +14,23 @@ export class BookService {
   totalPages: number;
   currentPage: number;
 
-  getBookDiscountsQueried(query: string, page: number, priceFrom: string, priceTo: string, genreId: number): Observable<BookDiscount[]> {
-    return this.http.get('http://localhost:8101/api/book-discounts?query=' + query + '&page=' + page + '&priceFrom=' + priceFrom + '&priceTo=' + priceTo + '&genre=' + 4)
+  getBookDiscountsQueried(query: string, page: number, priceFrom: string, priceTo: string, genre: string): Observable<BookDiscount[]> {
+    return this.http.get('http://localhost:8101/api/book-discounts?query=' + query + '&page=' + page + '&priceFrom=' + priceFrom + '&priceTo=' + priceTo + '&genre=' + genre)
       .map(response => {
-        console.log('http://localhost:8101/api/book-discounts?query=' + query + '&page=' + page + '&priceFrom=' + priceFrom + '&priceTo=' + priceTo + '&genre=' + 4);
+        console.log('http://localhost:8101/api/book-discounts?query=' + query + '&page=' + page + '&priceFrom=' + priceFrom + '&priceTo=' + priceTo + '&genre=' + genre);
         console.log(response)
         this.totalPages = response.json().totalPages;
         this.currentPage = response.json().number;
         return response.json().content as BookDiscount[];
+      })
+      .catch(this.handleError);
+  }
+
+  getHighestBookPrice(): Observable<number> {
+    return this.http.get('http://localhost:8101/api/book-discounts/max-price')
+      .map(response => {
+        console.log(response)
+        return response.json().response as number;
       })
       .catch(this.handleError);
   }
