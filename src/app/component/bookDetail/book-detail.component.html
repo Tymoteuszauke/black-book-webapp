@@ -1,0 +1,30 @@
+<div class="bookDiscountDetailsContainer container" *ngIf="bookDiscount">
+  <div class="row">
+    <div class="col">
+      <h2>{{bookDiscount.bookView.title}}</h2>
+      <div id=linesContainer>
+        <div>
+          <label class="text-muted">author: </label>
+          <span>{{bookDiscount.bookView.authors}}</span>
+        </div>
+        <div class="bookDiscountInfoLineContainer">
+          <label class="text-muted">price: </label>
+          <span>{{bookDiscount.price}} PLN</span>
+        </div>
+        <div class="bookDiscountInfoLineContainer">
+          <label class="text-muted">discount: </label>
+          <span>{{bookDiscount.discountDetails}}</span>
+        </div>
+        <div class="bookDiscountInfoLineContainer">
+          <label class="text-muted">bookstore: </label>
+          <span>{{bookDiscount.bookstoreView}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class=bookDiscountDetailsCoverContainer>
+        <img class="rounded float-right" src="{{bookDiscount.bookView.coverUrl}}">
+      </div>
+    </div>
+  </div>
+</div>

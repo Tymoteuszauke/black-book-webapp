@@ -20,6 +20,7 @@ var AppComponent = (function () {
         this.page = 0;
         this.priceFrom = '0';
         this.priceTo = '2000';
+        this.detailsHidden = true;
     }
     AppComponent.prototype.getBookDiscounts = function () {
         var _this = this;
@@ -34,8 +35,18 @@ var AppComponent = (function () {
         this.getBookDiscounts();
         this.genreService.getGenres().subscribe(function (genres) { return _this.genres = genres; });
     };
+    AppComponent.prototype.getStyle = function (bookDiscount) {
+        if (this.detailsHidden || bookDiscount.id != this.detailsId) {
+            return 'none';
+        }
+        else {
+            return '';
+        }
+    };
     AppComponent.prototype.onSelect = function (bookDiscount) {
         this.selectedBookDiscount = bookDiscount;
+        this.detailsHidden = !this.detailsHidden;
+        this.detailsId = bookDiscount.id;
     };
     AppComponent.prototype.updatePriceFrom = function (priceFrom) {
         console.log(priceFrom);
