@@ -21,6 +21,9 @@ export class AppComponent implements OnInit {
   priceFrom: string = '0';
   priceTo: string = '2000';
 
+  detailsHidden: boolean = true;
+  detailsId: number;
+
   constructor(private bookService: BookService, private genreService: GenreService) { }
 
   getBookDiscounts(): void {
@@ -36,8 +39,18 @@ export class AppComponent implements OnInit {
     this.genreService.getGenres().subscribe(genres => this.genres = genres);
   }
 
+  getStyle(bookDiscount: BookDiscount) {
+    if (this.detailsHidden || bookDiscount.id != this.detailsId) {
+      return 'none';
+    } else {
+      return '';
+    }
+  }
+
   onSelect(bookDiscount: BookDiscount): void {
     this.selectedBookDiscount = bookDiscount;
+    this.detailsHidden = !this.detailsHidden;
+    this.detailsId = bookDiscount.id;
   }
 
   updatePriceFrom(priceFrom: string): void {
