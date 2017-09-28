@@ -15,18 +15,18 @@
     <button class="btn" type="submit" (click)='searchEvent(titleInput.value)'>Search</button>
   </div>
   <div class="row justify-content-center">
-    <input type=range #priceFromSlider max='1000' value='0' (input)='updatePriceFrom(priceFromSlider.value)' />
+    <input type=range #priceFromSlider max='{{this.priceTo}}' value='0' (input)='updatePriceFrom(priceFromSlider.value)' />
     <label class="range-slider-label">{{this.priceFrom}}</label>
-    <input type=range #priceToSlider min='{{priceFrom}}' max='2000' value='2000' (input)='updatePriceTo(priceToSlider.value)' />
+    <input type=range #priceToSlider min='{{this.priceFrom}}' max='{{this.maxPriceTo}}' value='{{this.maxPriceTo}}' (input)='updatePriceTo(priceToSlider.value)' />
     <label class="range-slider-label">{{this.priceTo}}</label>
   </div>
   <div class="row justify-content-center">
-    <select [(ngModel)]="selectedValue">
-      <option *ngFor="let genre of genres" [ngValue]="genre.id">{{genre.name}}</option>
+    <select #selector [(ngModel)]="currentGenre"  >
+      <option *ngFor="let genre of genres" (change)="selectGenre(genre.name)">{{genre.name}}</option>
     </select>
   </div>
   <div class="row justify-content-center">
-    <button class="btn" type='submit' (click)='searchEvent(titleInput.value, priceFromSlider.value, priceToSlider.value)'> check! </button>
+    <button class="btn" type='submit' (click)='searchEvent(titleInput.value, priceFromSlider.value, priceToSlider.value, currentGenre)'> check! </button>
   </div>
 </div>
 <br />

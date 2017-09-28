@@ -16,27 +16,38 @@ export class AppComponent implements OnInit {
   title = 'Book discounts library';
   bookDiscounts: BookDiscount[];
   genres: Genre[];
+  currentGenre: string = 'dupa';
   selectedBookDiscount: BookDiscount;
   page: number = 0;
   priceFrom: string = '0';
-  priceTo: string = '2000';
+  priceTo: string = '0';
+  maxPriceTo: number = 0;
 
   detailsHidden: boolean = true;
   detailsId: number;
 
-  constructor(private bookService: BookService, private genreService: GenreService) { }
+  constructor(private bookService: BookService, private genreService: GenreService) {
+  }
 
   getBookDiscounts(): void {
-    this.bookService.getBookDiscounts("", this.page, '0', '2000').then((bookDiscounts => {
-      console.log(bookDiscounts);
-      console.log(this.genres)
-      this.bookDiscounts = bookDiscounts;
-    }))
+    this.bookService.getBookDiscountsQueried("", this.page, '0', '2000', this.currentGenre)
+      .subscribe((bookDiscounts => {
+        console.log(bookDiscounts);
+        console.log(this.genres)
+        this.bookDiscounts = bookDiscounts;
+      }))
   }
 
   ngOnInit(): void {
+    this.genreService.getGenres().subscribe(genres => {
+      this.genres = genres;
+      this.genres.unshift(new Genre(0, ''));
+    });
+    this.bookService.getHighestBookPrice().subscribe(highestPrice => {
+      this.maxPriceTo = highestPrice;
+      this.priceTo = this.maxPriceTo.toString()
+    })
     this.getBookDiscounts();
-    this.genreService.getGenres().subscribe(genres => this.genres = genres);
   }
 
   getStyle(bookDiscount: BookDiscount) {
@@ -62,28 +73,36 @@ export class AppComponent implements OnInit {
     this.priceTo = priceTo;
   }
 
-  searchEvent(query: string, priceFrom: string, priceTo: string): void {
-    this.bookService.getBookDiscounts(query, 0, priceFrom, priceTo).then((bookDiscounts => {
-      console.log(bookDiscounts);
-      this.bookDiscounts = bookDiscounts;
-    }))
-  }
-
-  nextPage(query: string): void {
-    this.page += 1;
-    this.bookService.getBookDiscounts(query, this.page, this.priceFrom, this.priceTo).then((bookDiscounts => {
-      console.log(bookDiscounts);
-      this.bookDiscounts = bookDiscounts;
-    }))
-  }
-
-  previousPage(query: string): void {
-    if (this.page >= 0) {
-      this.page -= 1;
-      this.bookService.getBookDiscounts(query, this.page, this.priceFrom, this.priceTo).then((bookDiscounts => {
-        console.log(bookDiscounts);
-        this.bookDiscounts = bookDiscounts;
-      }))
+  searchEvent(query: string, priceFrom: string, priceTo: string, genre: string): void {
+      this.bookService.getBookDiscountsQueried(query, 0, priceFrom, priceTo, genre)
+        .subscribe((bookDiscounts => {
+          console.log(bookDiscounts);
+          this.bookDiscounts = bookDiscounts;
+        }))
     }
-  }
+
+    nextPage(query: string): void {
+      this.page += 1;
+      this.bookService.getBookDiscountsQueried(query, this.page, this.priceFrom, this.priceTo, this.currentGenre)
+        .subscribe((bookDiscounts => {
+          console.log(bookDiscounts);
+          this.bookDiscounts = bookDiscounts;
+        }))
+    }
+
+    previousPage(query: string): void {
+      if (this.page >= 0) {
+        this.page -= 1;
+        this.bookService.getBookDiscountsQueried(query, this.page, this.priceFrom, this.priceTo, this.currentGenre)
+          .subscribe((bookDiscounts => {
+            console.log(bookDiscounts);
+            this.bookDiscounts = bookDiscounts;
+          }))
+      }
+    }
+
+    selectGenre(name: string) {
+      this.currentGenre = name;
+      console.log(this.currentGenre)
+    }
 }

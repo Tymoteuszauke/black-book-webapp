@@ -13,22 +13,26 @@ export class BookService {
   totalPages: number;
   currentPage: number;
 
-  getBookDiscounts(query: string, page: number, priceFrom: string, priceTo: string): Promise<BookDiscount[]> {
-    return Promise.resolve(this.getBookDiscountsQueried(query, page, priceFrom, priceTo));
-  }
+  getBookDiscountsQueried(query: string, page: number, priceFrom: string, priceTo: string, genre: string): Observable<BookDiscount[]> {
+      return this.http.get('http://localhost:8101/api/book-discounts?query=' + query + '&page=' + page + '&priceFrom=' + priceFrom + '&priceTo=' + priceTo + '&genre=' + genre)
+        .map(response => {
+          console.log('http://localhost:8101/api/book-discounts?query=' + query + '&page=' + page + '&priceFrom=' + priceFrom + '&priceTo=' + priceTo + '&genre=' + genre);
+          console.log(response)
+          this.totalPages = response.json().totalPages;
+          this.currentPage = response.json().number;
+          return response.json().content as BookDiscount[];
+        })
+        .catch(this.handleError);
+    }
 
-  getBookDiscountsQueried(query: string, page: number, priceFrom: string, priceTo: string): Promise<BookDiscount[]> {
-    return this.http.get('http://localhost:8101/api/book-discounts?query=' + query + '&page=' + page + '&priceFrom=' + priceFrom + '&priceTo=' + priceTo)
-      .toPromise()
-      .then(response => {
-        console.log('http://localhost:8101/api/book-discounts?query=' + query + '&page=' + page + '&priceFrom=' + priceFrom + '&priceTo=' + priceTo);
-        console.log(response)
-        this.totalPages = response.json().totalPages;
-        this.currentPage = response.json().number;
-        return response.json().content;
-      })
-      .catch(this.handleError);
-  }
+    getHighestBookPrice(): Observable<number> {
+      return this.http.get('http://localhost:8101/api/book-discounts/max-price')
+        .map(response => {
+          console.log(response)
+          return response.json().response as number;
+        })
+        .catch(this.handleError);
+    }
 
   getTotalPages(): number {
     return this.totalPages;

@@ -5,7 +5,12 @@
 /src/app/*.js
 /src/app/*.map
 /src/app/model/*.js
-/src/app/model/*.map
+/src/app/model/*.js.map
+/src/app/component/**/*.js.map
+/src/app/component/**/*.js
+/src/app/service/bookService/*.js.map
+/src/app/service/bookService/*.js
+
 /node_modules/*
 
 # End of .gitignore
