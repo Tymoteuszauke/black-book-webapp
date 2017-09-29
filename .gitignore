@@ -2,6 +2,7 @@
 # Created by Tymek
 
 #ignore unnecessary .js files
+package-lock.json
 /src/app/*.js
 /src/app/*.map
 /src/app/model/*.js
@@ -10,6 +11,8 @@
 /src/app/component/**/*.js
 /src/app/service/bookService/*.js.map
 /src/app/service/bookService/*.js
+/src/app/service/sortService/*.js.map
+/src/app/service/sortService/*.js
 
 /node_modules/*
 

@@ -26,12 +26,7 @@
     </select>
   </div>
   <div class="row justify-content-center">
-    <select #sortSelector [(ngModel)]="currentSort">
-      <option *ngFor="let sortColumn of sortColumns" (change)="selectSort(sortColumn)">{{sortColumn}}</option>
-    </select>
-  </div>
-  <div class="row justify-content-center">
-    <button class="btn" type='submit' (click)='searchEvent(titleInput.value, priceFromSlider.value, priceToSlider.value, currentGenre, currentSort)'> check! </button>
+
   </div>
 </div>
 <br />
@@ -41,6 +36,11 @@
       <label> Page {{bookService.getCurrentPage()}} from {{bookService.getTotalPages()}}</label>
       <button class="btn" type="submit" (click)='previousPage(titleInput.value)'> < </button>
       <button class="btn" type="submit" (click)='nextPage(titleInput.value)'> > </button>
+      Sort by
+        <select #sortSelector [(ngModel)]="currentSort">
+          <option *ngFor="let sortColumn of sortColumns" (change)="selectSort(sortColumn)">{{sortColumn}}</option>
+        </select>
+        <button class="btn" type='submit' (click)='searchEvent(titleInput.value, priceFromSlider.value, priceToSlider.value, currentGenre, currentSort)'> check! </button>
     </div>
   </div>
 </div>
@@ -51,8 +51,8 @@
         <li class="list-group-item" *ngFor="let bookDiscount of bookDiscounts" [class.selected]="bookDiscount === selectedBookDiscount">
           <book-discount-detail [style.display]="getStyle(bookDiscount)" [bookDiscount]="selectedBookDiscount"></book-discount-detail>
           <div (click)="onSelect(bookDiscount)">
-            <span class="badge">{{bookDiscount.id}}</span> {{bookDiscount.bookView.title}} <span class="badge-price"> {{bookDiscount.price}} PLN</span>
-            <span class="glyphicon glyphicon-shopping-cart"></span>
+            <div>{{bookDiscount.bookView.title}}</div>  <div class="pull-right" *ngIf="bookDiscount.price != 0; else elseBlock"> {{bookDiscount.price}} PLN</div>
+            <ng-template #elseBlock><div class="h6 text-success">Free</div></ng-template>
           </div>
         </li>
       </ul>
