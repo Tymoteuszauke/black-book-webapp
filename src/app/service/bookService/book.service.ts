@@ -13,10 +13,10 @@ export class BookService {
   totalPages: number;
   currentPage: number;
 
-  getBookDiscountsQueried(query: string, page: number, priceFrom: string, priceTo: string, genre: string): Observable<BookDiscount[]> {
-      return this.http.get('http://localhost:8101/api/book-discounts?query=' + query + '&page=' + page + '&priceFrom=' + priceFrom + '&priceTo=' + priceTo + '&genre=' + genre)
+  getBookDiscountsQueried(query: string, page: number, priceFrom: string, priceTo: string, genre: string, sort: string): Observable<BookDiscount[]> {
+      return this.http.get('http://localhost:8101/api/book-discounts?query=' + query + '&page=' + page + '&priceFrom=' + priceFrom + '&priceTo=' + priceTo + '&genre=' + genre + '&sort=' + sort)
         .map(response => {
-          console.log('http://localhost:8101/api/book-discounts?query=' + query + '&page=' + page + '&priceFrom=' + priceFrom + '&priceTo=' + priceTo + '&genre=' + genre);
+          console.log('http://localhost:8101/api/book-discounts?query=' + query + '&page=' + page + '&priceFrom=' + priceFrom + '&priceTo=' + priceTo + '&genre=' + genre + '&sort=' + sort);
           console.log(response)
           this.totalPages = response.json().totalPages;
           this.currentPage = response.json().number;
