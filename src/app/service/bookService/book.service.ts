@@ -14,7 +14,7 @@ export class BookService {
   currentPage: number;
 
   getBookDiscountsQueried(query: string, page: number, priceFrom: string, priceTo: string, genre: string, sort: string): Observable<BookDiscount[]> {
-      return this.http.get('http://localhost:8101/api/book-discounts?query=' + query + '&page=' + page + '&priceFrom=' + priceFrom + '&priceTo=' + priceTo + '&genre=' + genre + '&sort=' + sort)
+      return this.http.get('http://persistence-bot:8101/api/book-discounts?query=' + query + '&page=' + page + '&priceFrom=' + priceFrom + '&priceTo=' + priceTo + '&genre=' + genre + '&sort=' + sort)
         .map(response => {
           console.log('http://localhost:8101/api/book-discounts?query=' + query + '&page=' + page + '&priceFrom=' + priceFrom + '&priceTo=' + priceTo + '&genre=' + genre + '&sort=' + sort);
           console.log(response)
@@ -26,7 +26,7 @@ export class BookService {
     }
 
     getHighestBookPrice(): Observable<number> {
-      return this.http.get('http://localhost:8101/api/book-discounts/max-price')
+      return this.http.get('http://persistence-bot:8101/api/book-discounts/max-price')
         .map(response => {
           console.log(response)
           return response.json().response as number;
