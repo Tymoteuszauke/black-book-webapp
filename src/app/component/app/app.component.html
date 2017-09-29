@@ -11,8 +11,8 @@
     <h2>My Discount Library</h2>
   </div>
   <div class="row justify-content-center">
-    <input type="text" #titleInput (keypress)='searchEvent(titleInput.value, priceFromSlider.value, priceToSlider.value)'>
-    <button class="btn" type="submit" (click)='searchEvent(titleInput.value)'>Search</button>
+    <input type="text" #titleInput (keypress)='searchEvent(titleInput.value, priceFromSlider.value, priceToSlider.value, currentGenre, currentSort)'>
+    <button class="btn" type="submit" (click)='searchEvent(titleInput.value, priceFromSlider.value, priceToSlider.value, currentGenre, currentSort)'>Search</button>
   </div>
   <div class="row justify-content-center">
     <input type=range #priceFromSlider max='{{this.priceTo}}' value='0' (input)='updatePriceFrom(priceFromSlider.value)' />
@@ -21,12 +21,17 @@
     <label class="range-slider-label">{{this.priceTo}}</label>
   </div>
   <div class="row justify-content-center">
-    <select #selector [(ngModel)]="currentGenre"  >
+    <select #genreSelector [(ngModel)]="currentGenre">
       <option *ngFor="let genre of genres" (change)="selectGenre(genre.name)">{{genre.name}}</option>
     </select>
   </div>
   <div class="row justify-content-center">
-    <button class="btn" type='submit' (click)='searchEvent(titleInput.value, priceFromSlider.value, priceToSlider.value, currentGenre)'> check! </button>
+    <select #sortSelector [(ngModel)]="currentSort">
+      <option *ngFor="let sortColumn of sortColumns" (change)="selectSort(sortColumn)">{{sortColumn}}</option>
+    </select>
+  </div>
+  <div class="row justify-content-center">
+    <button class="btn" type='submit' (click)='searchEvent(titleInput.value, priceFromSlider.value, priceToSlider.value, currentGenre, currentSort)'> check! </button>
   </div>
 </div>
 <br />
