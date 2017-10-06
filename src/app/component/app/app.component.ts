@@ -4,6 +4,8 @@ import { BookDiscount } from '../../model/bookDiscount';
 import { BookService } from '../../service/bookService/book.service';
 import { GenreService } from '../../service/genreService/genre.service'
 import { Genre } from '../../model/genre'
+import { Bookstore } from '../../model/bookstore'
+import { BookstoreService } from '../../service/bookstoreService/bookstore.service'
 import { SortService } from '../../service/sortService/sort.service'
 
 @Component({
@@ -11,7 +13,7 @@ import { SortService } from '../../service/sortService/sort.service'
   templateUrl: './app.component.html'
   ,
   styleUrls: ['./app.component.css'],
-  providers: [BookService, GenreService, SortService]
+  providers: [BookService, GenreService, SortService, BookstoreService]
 })
 export class AppComponent implements OnInit {
   title = 'Book discounts library';
@@ -23,6 +25,8 @@ export class AppComponent implements OnInit {
   priceFrom: string = '0';
   priceTo: string = '0';
   maxPriceTo: number = 0;
+  bookstores: Bookstore[];
+  currentBookstore: Bookstore;
   currentSort: string = '';
   sortColumns: string[];
 
@@ -30,7 +34,7 @@ export class AppComponent implements OnInit {
   detailsId: number;
 
   constructor(private bookService: BookService, private genreService: GenreService,
-    private sortService: SortService) {
+    private sortService: SortService, private bookstoreService: BookstoreService) {
   }
 
   getBookDiscounts(): void {
@@ -50,6 +54,9 @@ export class AppComponent implements OnInit {
     this.bookService.getHighestBookPrice().subscribe(highestPrice => {
       this.maxPriceTo = highestPrice;
       this.priceTo = this.maxPriceTo.toString()
+    })
+    this.bookstoreService.getBookstores().subscribe(bookstore => {
+      this.bookstores = bookstore;
     })
     this.getBookDiscounts();
     this.sortColumns = this.sortService.columns;
@@ -108,7 +115,12 @@ export class AppComponent implements OnInit {
 
     selectGenre(name: string) {
       this.currentGenre = name;
-      console.log(this.currentGenre)
+      console.log(this.currentGenre);
+    }
+
+    selectBookstore(bookstore: string) {
+      this.currentBookstore = bookstore;
+      console.log(this.currentBookstore);
     }
 
     selectSort(column: string) {

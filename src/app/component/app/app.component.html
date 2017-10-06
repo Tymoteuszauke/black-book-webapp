@@ -26,7 +26,9 @@
     </select>
   </div>
   <div class="row justify-content-center">
-
+    <select #genreSelector [(ngModel)]="currentBookstore">
+      <option *ngFor="let bookstore of bookstores" (change)="selectBookstore(bookstore)">{{bookstore.name}}</option>
+    </select>
   </div>
 </div>
 <br />
